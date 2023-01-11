@@ -1,4 +1,3 @@
-
 public class Principal {
 
 	public static void main(String[] args) {
@@ -11,7 +10,5 @@ public class Principal {
 		threadDois.start();
 		
 		//Objetivo: Analisar a ordem de execução que pode ser feita das threads, não existe uma regra
-
 	}
-
 }
