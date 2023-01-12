@@ -6,8 +6,8 @@ Alura: Threads em Java 1: programação paralela
         Tópicos:
         • Introdução à Threads Ver primeiro vídeo
         • Ordem de execução
-        •
-        •
+        • Sincronizando a execução
+        • Coleções thread-safe
         •
         •
         •
