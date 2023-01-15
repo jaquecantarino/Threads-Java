@@ -11,6 +11,8 @@
         • Espere e notifique
         • Revisitando a lista
         • Entendendo Deadlock
+        
+##### Youtube Loiane: https://youtube.com/playlist?list=PL3JzGmlyufwQ7DowZJzeux57gzuQM_iSR&si=EnSIkaIECMiOmarE
 
 ###### Anotações:
 • O que é? (um descrição simples)
