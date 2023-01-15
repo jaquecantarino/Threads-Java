@@ -15,6 +15,9 @@
 ######Anotações:
 • O que é? (um descrição simples)
         É o que permite que nosso programa tenha mais de um fluxo, ou seja, nosso programa passa a ter ações simultaneas/paralelas.
+
+• Como usar? (Como coloco na minha aplicação/dia-a-dia)
+        *implements Runnable
         
 • Pra que serve? (qual problema resolve)
         Usamos apra que nossa aplicação execute tarefas de forma paralela, impedindo que o usuario fique "travado" tornando a experiencia de uso melhor.
