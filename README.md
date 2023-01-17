@@ -11,6 +11,18 @@
         • Espere e notifique
         • Revisitando a lista
         • Entendendo Deadlock
+
+##### Alura: Threads em Java 2: programação concorrente avançada (16h)
+        Link: https://cursos.alura.com.br/course/threads-java-2
+        
+        Tópicos:
+        • O projeto Servidor de tarefas
+        • 
+        • 
+        •
+        • 
+        • 
+        • 
         
 ##### Youtube Loiane: https://youtube.com/playlist?list=PL3JzGmlyufwQ7DowZJzeux57gzuQM_iSR&si=EnSIkaIECMiOmarE
 
