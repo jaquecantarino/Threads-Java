@@ -112,3 +112,11 @@
         
         Programação com Threads: https://www.devmedia.com.br/programacao-com-threads/6152
         Trabalhando com Threads em Java: https://www.devmedia.com.br/trabalhando-com-threads-em-java/28780
+
+
+
+*Thread Pool = Piscina de threads.
+Reuso de threads, como tem um alto custo computacional criar cada thread o reuso fornece mais ganho de custo.
+Para criar uma piscina de threads usamos o Executors.newfixedThreadPool(n); [n=numero de vezes que quero reutilizar essa thread]. Para isso precisamos instanciar/criar o objeto: ExecutorService nomex = Executors.newfixedThreadPool(n);
+Usaremos também o pool no lugar do start, assim: nomex.execute(ClasseTarefa); 
+Assim temos o numero fixo de threads disponiveis, podemos fazer de uma outra forma, não limitando a quantidade de threads que teremos, assim não ficaremos limitados. Basta usar newCachedThreadPool() no lugar do newfixedThreadPool(n) na instancia.Ficando assim: ExecutorService nomex = Executors.newCachedThreadPool();
