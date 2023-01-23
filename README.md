@@ -18,7 +18,7 @@
         Tópicos:
         • O projeto Servidor de tarefas
         • Reuso de threads
-        • 
+        • Melhorando o cliente
         •
         • 
         • 
