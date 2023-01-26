@@ -114,9 +114,27 @@
         Trabalhando com Threads em Java: https://www.devmedia.com.br/trabalhando-com-threads-em-java/28780
 
 
+#### Anotações Extras - Especificas.
 
-*Thread Pool = Piscina de threads.
+•• Thread Pool = Piscina de threads. ••
 Reuso de threads, como tem um alto custo computacional criar cada thread o reuso fornece mais ganho de custo.
 Para criar uma piscina de threads usamos o Executors.newfixedThreadPool(n); [n=numero de vezes que quero reutilizar essa thread]. Para isso precisamos instanciar/criar o objeto: ExecutorService nomex = Executors.newfixedThreadPool(n);
 Usaremos também o pool no lugar do start, assim: nomex.execute(ClasseTarefa); 
 Assim temos o numero fixo de threads disponiveis, podemos fazer de uma outra forma, não limitando a quantidade de threads que teremos, assim não ficaremos limitados. Basta usar newCachedThreadPool() no lugar do newfixedThreadPool(n) na instancia.Ficando assim: ExecutorService nomex = Executors.newCachedThreadPool();
+
+
+•• Volatile ••
+Cada thread nativamente tem sua memoria, seu cache, nos queremos que as threads tenham essa memoria compartilhada, que eles puxem a memoria principal. Para isso é basicamente adicionar o volatile no atributo que deve ter esse cache compartilhado.
+Exemplo: Eu tenho um boolean que será manipulado em varios metodos e ele precisa ter seu status compartilhado e alterado entre esses metodos:
+	private volatile boolean atributo = false;
+No novo pacote java foi criado uma variavel que substitui o uso do volatile[também não precisaremos de synchronized], eu poderia também para que tenha a mesma função usar esse atributo da seguinte forma:
+	private AtomicBoolean atributo;
+Mas como é uma classe não podemos usar de modo primitivo, então no nosso construtor temos que instancias com:
+	this.atributo = new AtomicBoolean();
+E ao chama-lo usamos como uma classe, por exemplo preciso chamar o valor booleano do meu atributo, então usarei o get:
+	this.atributo.get();
+E quando preciso alterar o valor da minha variavel uso o set:
+	this.atributo.set(novoValor); [*novoValor = true or false]
+Vem do pacote: java.util.concurrent.atomic
+Podemos usar também: AtomicInteger e AtomicLong
+referencia de documentação: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/AtomicBoolean.html 
