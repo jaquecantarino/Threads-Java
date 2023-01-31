@@ -20,7 +20,7 @@
         • Reuso de threads
         • Melhorando o cliente
         • Entendendo Volatile
-        • 
+        • Distribuindo comandos e tratamento de erro
         • 
         • 
         
@@ -117,6 +117,7 @@
 #### Anotações Extras - Especificas.
 
 •• Thread Pool = Piscina de threads. ••
+
 Reuso de threads, como tem um alto custo computacional criar cada thread o reuso fornece mais ganho de custo.
 Para criar uma piscina de threads usamos o Executors.newfixedThreadPool(n); [n=numero de vezes que quero reutilizar essa thread]. Para isso precisamos instanciar/criar o objeto: ExecutorService nomex = Executors.newfixedThreadPool(n);
 Usaremos também o pool no lugar do start, assim: nomex.execute(ClasseTarefa); 
@@ -124,6 +125,7 @@ Assim temos o numero fixo de threads disponiveis, podemos fazer de uma outra for
 
 
 •• Volatile ••
+
 Cada thread nativamente tem sua memoria, seu cache, nos queremos que as threads tenham essa memoria compartilhada, que eles puxem a memoria principal. Para isso é basicamente adicionar o volatile no atributo que deve ter esse cache compartilhado.
 Exemplo: Eu tenho um boolean que será manipulado em varios metodos e ele precisa ter seu status compartilhado e alterado entre esses metodos:
 	private volatile boolean atributo = false;
@@ -138,3 +140,18 @@ E quando preciso alterar o valor da minha variavel uso o set:
 Vem do pacote: java.util.concurrent.atomic
 Podemos usar também: AtomicInteger e AtomicLong
 referencia de documentação: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/AtomicBoolean.html 
+
+
+•• Tratamento de exceções ••
+
+O tratamento de exceção deve estar na mesma pilha onde existe a exceção, ou seja, se quero tratar uma exceção que vai existir no metodo run, devo fazer o tratamento dela dentro do mesmo metodo. Mas isso não é escalavel, ou seja, se eu tiver um projeto com 50 metodos teria que fazer tratativas exclusivas para cada um, para resolver esse problema usamos o setUncaughExceptionHandler( ); que eu instancio junto com meu objeto, no caso podemos fazer assim:
+1- Criar um novo objeto:
+Thread thread = new Thread(new Runnable() { colocar tudo da minha thread aqui dentro } );
+2- Chamar o set nesse objeto:
+thread.setUncaughExceptionHandler( new ClasseTratamentoDeExcecao());
+*A classe ClasseTratamentoDeExcecao deve implementar o UncaughExceptionHandler:
+public class ClasseTratamentoDeExcecao implements UncaughExceptionHandler { }
+*Quando criamos threadPool não conseguimos usar o setUncaughExceptionHandler, para isso, precisaremos precisamos ir onde criamos o atributo threadPool e mudar a instancia dele, usaremos a opção que recebe o newFixedThreadPool + threadFactory, basta ir no construtor e fazer:
+this.threadPool = Executors.newFixedThreadPool(0, new ClasseCriadoraDeThreads);
+*ClasseCriadoraDeThreads = Classe que implementa ThreadFactory: public class ClasseCriadoraDeThreads implements ThreadFactory {} Essa classe cria o metodo newThread, que é onde oficialmente vamos instanciar a ClasseTratamentoDeExcecao.
+Em resumo, para tratar exceções de threads usando o threadPool precisamos de mais 2 arquivos no projeto: 1- Classe que trata a exceção, que implementa o UncaughExceptionHandler | 2- Classe que "cria threads" que implementa o ThreadFactory. Agora, se está instanciando uma thread unica, basta criar o arquivo 1 e utilizar o setUncaughExceptionHandler normalmente.
