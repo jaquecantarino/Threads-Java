@@ -155,3 +155,19 @@ public class ClasseTratamentoDeExcecao implements UncaughExceptionHandler { }
 this.threadPool = Executors.newFixedThreadPool(0, new ClasseCriadoraDeThreads);
 *ClasseCriadoraDeThreads = Classe que implementa ThreadFactory: public class ClasseCriadoraDeThreads implements ThreadFactory {} Essa classe cria o metodo newThread, que é onde oficialmente vamos instanciar a ClasseTratamentoDeExcecao.
 Em resumo, para tratar exceções de threads usando o threadPool precisamos de mais 2 arquivos no projeto: 1- Classe que trata a exceção, que implementa o UncaughExceptionHandler | 2- Classe que "cria threads" que implementa o ThreadFactory. Agora, se está instanciando uma thread unica, basta criar o arquivo 1 e utilizar o setUncaughExceptionHandler normalmente.
+
+
+•• Como fazer nossas Threads retornar informações ••
+
+Na classe de retorno, no lugar de implementar o Runnable, usaremos o Callable<>, ao usar o Callable, ele exige que você diga qual o tipo do retorno essa classe vai oferecer, então, usaremos:
+public class ClasseQueRetorna implements Callable<String> (usando o String como exemplo)(dentro do <> caso não queira retornar nada, o que perde o sentido de usar o Callable, mas caso seja necessario, temos o generics Void disponivel)
+Outra mudança, é que no lugar do metodo run() usaremos o metodo call(), e diferente do anterior, o call não é void, e sim o tipo de retorno que você colocar no implements da classe, ou seja, nesse exemplo usaremos:
+public String call() {}
+E por fim, outra diferença importante nessa introdução, é o tratamento de exceção, por exemplo, ao fazermos um Thread.sleep() em uma interface Runnable, sempre é necessario criar o tratamento para essa chamada, nos nossos exemplos usavamos o try...catch, com a interface Callable<> o nosso metodo call aceita throws na sua contrução, então, no lugar de criar um try...catch para cada chamada que precisa de tratamento, podemos usar:
+public String call() throws Exception {}
+*todo metodo call() precisa de um return.
+*o metodo execute() é exclusivo do Runnable, no Callable<> usamos o submit()
+•Usando Future<> : precisamos encontrar o meio de mostrar o resultado das nossas chamadas, seja do banco ou de um webservice, para uso usamos a interface Future que é a representação de um resultado, ele pode ser usado tanto para interfaces Runnable quanto em Callable. Usa implementação acontece na chamada do execute ou submit, da seguinte forma:
+Future<String> nomeQualquer =  this.threadPool.submit(nomeInstanciaClasseComandoAcao);
+E mostramos o resultado atraves da chamada pelo get mesmo:
+String nomeString = nomeQualquer.get(); ((nomeQualquer = nome dado na instancia da nossa Future))
