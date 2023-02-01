@@ -170,4 +170,22 @@ public String call() throws Exception {}
 •Usando Future<> : precisamos encontrar o meio de mostrar o resultado das nossas chamadas, seja do banco ou de um webservice, para uso usamos a interface Future que é a representação de um resultado, ele pode ser usado tanto para interfaces Runnable quanto em Callable. Usa implementação acontece na chamada do execute ou submit, da seguinte forma:
 Future<String> nomeQualquer =  this.threadPool.submit(nomeInstanciaClasseComandoAcao);
 E mostramos o resultado atraves da chamada pelo get mesmo:
-String nomeString = nomeQualquer.get(); ((nomeQualquer = nome dado na instancia da nossa Future))
+String nomeString = nomeQualquer.get(); ((nomeQualquer = nome dado na instancia da nossa Future)).
+
+
+•• Filas de Comandos / Collection Queue ••
+
+Mini overview de Filas:
+Vindo do java util collection temos o queue, que são as filas. Como implementamos filas:
+Queue<TipoDeDado> nomeFila =  new LinkedList<>(); (Queue<String>  | Queue<Int> | etc)
+- Oferecendo dados, inserindo dado na fila:
+	nomeFila.offer("Informação");
+- Recebendo dados, e tirando o dado da fila:
+	nomeFila.poll();
+- Recebendo dados mas sem retira-lo da fila:
+	nomeFila.peek();
+O LinkedList não foi criado para programação concorrente, ou seja, ele não vai funcionar nas threads, para isso, temos uma solução, o BlockingQueue, fazendo um paralelo ao funcionamento vimos algumas anotações acima o Atomic, a implementação é parecida, então, para utiliza-los:
+BlockingQueue<String> nomeFila = new ArrayBlockingQueue<>(n);
+*Por que usar o ArrayBlockingQueue<>(n)? (n=quantidade de elementos que quero na minha fila, numero inteiro) O LinkedList não é compativel com o Blocking, além do array temos algumas outras opções, referencia de doc: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html
+*Usamos no lugar do poll o take: nomeFila.take(); Ele bloqueia a thread até que o elemento fique disponivel, ou seja, vai pausar até que tenha o conteudo.
+*Usamos no lugar do offer o put: nomeFila.put("Dado"); Ele bloqueia a execução aguardando um espaço caso seja feita uma tentativa de adição com a fila cheia.
