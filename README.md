@@ -211,3 +211,9 @@ synchronized void stop() {
 	this.foiTerminada = true;
 	notify();
 }
+
+
+•• DEADLOCKS ••
+
+É o impasse causado quando a execução de uma thread impede a execução de outra.
+Como podemos evitar: Usando metodos wait e notify nos synchronized.
