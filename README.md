@@ -21,8 +21,8 @@
         • Melhorando o cliente
         • Entendendo Volatile
         • Distribuindo comandos e tratamento de erro
-        • 
-        • 
+        • Retornos no Futuro
+        • Produzindo e Consumindo com Threads
         
 ##### Youtube Loiane: https://youtube.com/playlist?list=PL3JzGmlyufwQ7DowZJzeux57gzuQM_iSR&si=EnSIkaIECMiOmarE
 
@@ -189,3 +189,25 @@ BlockingQueue<String> nomeFila = new ArrayBlockingQueue<>(n);
 *Por que usar o ArrayBlockingQueue<>(n)? (n=quantidade de elementos que quero na minha fila, numero inteiro) O LinkedList não é compativel com o Blocking, além do array temos algumas outras opções, referencia de doc: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/BlockingQueue.html
 *Usamos no lugar do poll o take: nomeFila.take(); Ele bloqueia a thread até que o elemento fique disponivel, ou seja, vai pausar até que tenha o conteudo.
 *Usamos no lugar do offer o put: nomeFila.put("Dado"); Ele bloqueia a execução aguardando um espaço caso seja feita uma tentativa de adição com a fila cheia.
+
+
+•• Suspender, Parar e Rotomar ••
+
+Atualmente só é possivel fazer esses movimentos com as threads de forma, digamos, manual. Após do java 2 os metodos suspend, stop e resume, que pertenciam a classe thread, foram excluidos, mas ainda podemos montar essas ações. Para isso criamos os metodos da classe, e com o auxilio de booleans que usaremos como flags podemos fazer o controle das threads.
+-Criando os boobleans:
+boolean estaSuspensa; 
+boolean foiTerminada;
+-Criando os metodos:
+void suspend() { 
+		this.estaSuspensa = true;
+	}
+	
+synchronized void resume() {
+	this.estaSuspensa = false;
+	notify(); 
+}
+	
+synchronized void stop() {
+	this.foiTerminada = true;
+	notify();
+}
